@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node bin/www",
+    "dev": "nodemon bin/www",
     "test": "npx mocha --exit --recursive test/"
   },
   "author": "",
@@ -13,10 +14,12 @@
     "bcrypt": "^5.1.1",
     "body-parser": "^1.18.3",
     "dotenv": "^16.4.5",
+    "email-validator": "^2.0.4",
     "express": "^4.16.4",
     "http-errors": "^1.7.1",
     "mongodb": "^3.1.10",
     "mongoose": "^9.6.1",
+    "nodemon": "^3.1.14",
     "pug": "^2.0.3",
     "uuid": "^9.0.1"
   },
