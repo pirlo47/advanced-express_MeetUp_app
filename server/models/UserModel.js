@@ -1,6 +1,9 @@
 const mongoose = require('mongoose'); 
 const emailValidator = require('email-validator');
 const { validOptions } = require('mongodb/lib/operations/connect');
+const bcrypt = require('bcrypt');
+
+const SALT_ROUNDS = 12;  
 
 const UserSchema = mongoose.Schema({
     //data defination 
@@ -36,5 +39,21 @@ const UserSchema = mongoose.Schema({
     //Mongoose to add timestamps for each document created
     timestamps: true,  
 }); 
+
+//adding becrypt 
+UserSchema.pre('save', async function preSave() {
+    const user = this; 
+    if(!user.isModified('password')) return;
+    try{
+        const hash = await bcrypt.hash(user.password, SALT_ROUNDS);
+        user.password = hash;
+    } catch (err) {
+        throw err; 
+    }
+});
+//Implementing the compare function
+UserSchema.methods.comparePassword = async function comparePassword(candidate) {
+    return bcrypt.compare(candidate, this.password);
+}; 
 
 module.exports = mongoose.model('User', UserSchema); 
